@@ -1,0 +1,10 @@
+' Gambas module file
+
+Public Sub Main()
+
+  Dim UI As New Screen
+
+  UI.Window.FullScreen = True
+  UI.Window.Show
+
+End

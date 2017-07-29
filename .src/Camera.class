@@ -1,0 +1,62 @@
+' Gambas class file
+
+Inherits Vector3d
+
+Public Zoom As Float = 1.0
+Public Angle As Float = 45.0
+Public Rotate As New Vector3d
+
+Public Sub _new()
+
+  Me.x = 0
+  Me.y = -1
+  Me.z = -4
+
+End
+
+Public Sub Open(Window As Window)
+
+  Gl.ClearDepth(100.0)              'Enables Clearing Of The Depth Buffer
+  gl.ClearColor(0.0, 0.0, 0.0, 0.0) 'This Will Clear The Background Color To Black
+  gl.DepthFunc(gl.LESS)             'The Type Of Depth Test To Do
+  gl.Enable(gl.DEPTH_TEST)          'Enables Depth Testing
+  gl.ShadeModel(gl.SMOOTH)          'Enables Smooth Color Shading
+
+  gl.MatrixMode(gl.PROJECTION)
+  gl.LoadIdentity()                 'Reset The Projection Matrix
+  glu.Perspective(Me.Angle, Window.Width / Window.Height, 0.1, 100.0)   'Calculate The Aspect Ratio Of The Window
+
+  gl.MatrixMode(gl.MODELVIEW)
+
+End
+
+Public Sub Resize(Window As Window)
+
+  Gl.Viewport(0, 0, Window.Width, Window.Height)
+
+  Gl.MatrixMode(Gl.PROJECTION)
+  Gl.LoadIdentity()                     'Reset The Projection Matrix
+  glu.Perspective(Me.Angle, Window.Width / Window.Height, 0.1, 100.0)   'Calculate The Aspect Ratio Of The Window
+
+  Gl.MatrixMode(Gl.MODELVIEW)
+
+End
+
+Public Sub Update(Window As Window)
+
+  gl.Clear(gl.COLOR_BUFFER_BIT Or gl.DEPTH_BUFFER_BIT)    ' Clear The Screen And The Depth Buffer
+
+  Gl.MatrixMode(Gl.PROJECTION)
+  Gl.LoadIdentity()                     'Reset The Projection Matrix
+  glu.Perspective(Me.Angle, Window.Width / Window.Height, 0.1, 100.0)   'Calculate The Aspect Ratio Of The Window
+
+  Gl.Scalef(Me.Zoom, Me.Zoom, Me.Zoom)
+  gl.Translatef(Me.x, Me.y, Me.z)
+
+  gl.Rotatef(Me.Rotate.x, 1.0, 0.0, 0.0)
+  gl.Rotatef(Me.Rotate.y, 0.0, 1.0, 0.0)
+  gl.Rotatef(Me.Rotate.z, 0.0, 0.0, 1.0)
+
+  Gl.MatrixMode(Gl.MODELVIEW)
+
+End

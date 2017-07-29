@@ -1,0 +1,11 @@
+Main
+SpaceInvaders3D
+0
+0
+0.0.1
+
+gb.image
+gb.sdl2
+gb.opengl
+gb.opengl.glu
+

@@ -1,0 +1,90 @@
+' Gambas class file
+
+Public Window As New Window(True) As "Window"
+Public Camera As New Camera
+
+Public Ship As New Ship
+Public Aliens[100] As Alien
+
+Public Draws As Integer
+
+Public Sub _new()
+
+  Dim x As Integer
+
+  With Window
+    .Resize(1600, 1080)
+    .Resizable = True
+    .Text = "Space Invaders 3D"
+  End With
+
+  For x = 0 To 99
+    Aliens[x] = New Alien
+    With Aliens[x]
+      .x = (x Mod 10) - 4.5
+      .z = -100
+      .z += x \ 10
+    End With
+  Next
+
+End
+
+Public Sub Window_Open()
+
+  Me.Camera.Open(Me.Window)
+
+End
+
+Public Sub Window_Resize()
+
+  Me.Camera.Resize(Me.Window)
+
+End
+
+Public Sub Window_Draw()
+
+  Dim Alien As Alien
+
+  'Me.Camera.x = Me.Ship.x
+
+  Me.Camera.Update(Me.Window)
+
+  Me.Ship.Draw()
+
+  For Each Alien In Me.Aliens
+    Alien.MoveForward()
+    Alien.Draw()
+  Next
+
+End
+
+Public Sub Window_KeyPress()
+
+  If Key.Code = Key.F1 Then Window.Fullscreen = Not Window.Fullscreen
+  If Key.Code = key.Esc Then Window.Close()
+
+  If Key.Code = Key.Left Then Ship.Velocity.x = -0.03
+  If Key.Code = Key.Right Then Ship.Velocity.x = 0.03
+
+  If Key.Code = Key.PageUp Then Camera.z -= 1
+  If Key.Code = Key.PageDown Then Camera.z += 1
+
+  If Key.Code = Key.Space Then Camera.Zoom += 1
+
+  If Key.Code = Key.F5 Then Camera.Rotate.x += 1
+  If Key.Code = Key.F6 Then Camera.Rotate.x -= 1
+  If Key.Code = Key.F7 Then Camera.Rotate.y += 1
+  If Key.Code = Key.F8 Then Camera.Rotate.y -= 1
+  If Key.Code = Key.F9 Then Camera.y += 1
+  If Key.Code = Key.F10 Then Camera.y -= 1
+  If Key.Code = Key.F11 Then Camera.Angle += 1
+  If Key.Code = Key.F12 Then Camera.Angle -= 1
+
+End
+
+Public Sub Window_KeyRelease()
+
+  If Key.Code = Key.Left Then Ship.Velocity.x = 0
+  If Key.Code = Key.Right Then Ship.Velocity.x = 0
+
+End

@@ -1,0 +1,136 @@
+' Gambas class file
+
+Inherits Vector3d
+
+Public Size As New Vector3d
+Public Velocity As New Vector3d
+Public Rotate As New Vector3d
+Public RotateVelocity As New Vector3d
+
+Public Mass As Float
+
+Public Function TopLeftBack() As Vector3d
+
+  Return New Vector3d(Me.x - Me.Size.x / 2, Me.y + Me.Size.y / 2, Me.z + Me.Size.z / 2)
+
+End
+
+Public Function TopLeftFront() As Vector3d
+
+  Return New Vector3d(Me.x - Me.Size.x / 2, Me.y + Me.Size.y / 2, Me.z - Me.Size.z / 2)
+
+End
+
+Public Function TopRightBack() As Vector3d
+
+  Return New Vector3d(Me.x + Me.Size.x / 2, Me.y + Me.Size.y / 2, Me.z + Me.Size.z / 2)
+
+End
+
+Public Function TopRightFront() As Vector3d
+
+  Return New Vector3d(Me.x + Me.Size.x / 2, Me.y + Me.Size.y / 2, Me.z - Me.Size.z / 2)
+
+End
+
+Public Function BottomLeftBack() As Vector3d
+
+  Return New Vector3d(Me.x - Me.Size.x / 2, Me.y - Me.Size.y / 2, Me.z + Me.Size.z / 2)
+
+End
+
+Public Function BottomLeftFront() As Vector3d
+
+  Return New Vector3d(Me.x - Me.Size.x / 2, Me.y - Me.Size.y / 2, Me.z - Me.Size.z / 2)
+
+End
+
+Public Function BottomRightBack() As Vector3d
+
+  Return New Vector3d(Me.x + Me.Size.x / 2, Me.y - Me.Size.y / 2, Me.z + Me.Size.z / 2)
+
+End
+
+Public Function BottomRightFront() As Vector3d
+
+  Return New Vector3d(Me.x + Me.Size.x / 2, Me.y - Me.Size.y / 2, Me.z - Me.Size.z / 2)
+
+End
+
+Public Function Left() As Float
+
+  Return Me.x - Me.Size.x / 2
+
+End
+
+Public Function Right() As Float
+
+  Return Me.x + Me.Size.x / 2
+
+End
+
+Public Function Bottom() As Float
+
+  Return Me.y - Me.Size.y / 2
+
+End
+
+Public Function Top() As Float
+
+  Return Me.y + Me.Size.y / 2
+
+End
+
+Public Function Back() As Float
+
+  Return Me.z - Me.Size.z / 2
+
+End
+
+Public Function Front() As Float
+
+  Return Me.z + Me.Size.z / 2
+
+End
+
+Public Function IntersectsXZ(Other As Shape) As Boolean
+
+  'Top Left
+  With Me.TopLeftBack()
+    If .x >= Other.Left() And .x <= Other.Right() Then
+      If .z >= Other.Back() And .z <= Other.Front() Then
+        Return True
+      Endif
+    Endif
+  End With
+
+  'Top Right
+  With Me.TopRightBack()
+    If .x >= Other.Left() And .x <= Other.Right() Then
+      If .z >= Other.Back() And .z <= Other.Front() Then
+        Return True
+      Endif
+    Endif
+  End With
+
+  'Bottom Left
+  With Me.TopLeftFront()
+    If .x >= Other.Left() And .x <= Other.Right() Then
+      If .z >= Other.Back() And .z <= Other.Front() Then
+        Return True
+      Endif
+    Endif
+  End With
+
+  'Bottom Right
+  With Me.TopRightFront()
+    If .x >= Other.Left() And .x <= Other.Right() Then
+      If .z >= Other.Back() And .z <= Other.Front() Then
+        Return True
+      Endif
+    Endif
+  End With
+
+  Return False
+
+End

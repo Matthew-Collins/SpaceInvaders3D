@@ -1,0 +1,13 @@
+' Gambas class file
+
+Public x As Float
+Public y As Float
+Public z As Float
+
+Public Sub _new(Optional x As Float, Optional y As Float, Optional z As Float)
+
+  Me.x = x
+  Me.y = y
+  Me.z = z
+
+End

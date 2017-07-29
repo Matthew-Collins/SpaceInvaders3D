@@ -1,0 +1,12 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.9.2
+Title=SpaceInvaders3D
+Startup=Main
+Version=0.0.1
+Component=gb.image
+Component=gb.sdl2
+Component=gb.opengl
+Component=gb.opengl.glu
+TabSize=2
+Language=en_US
+Packager=1

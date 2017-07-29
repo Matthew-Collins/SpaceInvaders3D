@@ -1,0 +1,68 @@
+' Gambas class file
+
+Inherits Shape
+
+Public Sub Draw()
+
+  Me.x += Me.Velocity.x
+  Me.y += Me.Velocity.y
+  Me.z += Me.Velocity.z
+
+  Me.Rotate.x += Me.RotateVelocity.x
+  Me.Rotate.y += Me.RotateVelocity.y
+  Me.Rotate.z += Me.RotateVelocity.z
+
+  gl.LoadIdentity() 'Reset The Current Modelview Matrix
+  gl.translatef(Me.x, Me.y, Me.z)
+
+  gl.Rotatef(Me.Rotate.x, 1.0, 0.0, 0.0)
+  gl.Rotatef(Me.Rotate.y, 0.0, 1.0, 0.0)
+  gl.Rotatef(Me.Rotate.z, 0.0, 0.0, 1.0)
+
+  gl.Begin(gl.QUADS) 'Draw A Quad
+
+  'Top
+  gl.Color3f(0.0, 1.0, 0.0) 'Green
+  gl.Vertex3f(Me.Size.x / 2, Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, Me.Size.y / 2, Me.Size.z / 2)
+
+  'Bottom
+  gl.Color3f(1.0, 0.5, 0.0) 'Orange
+  gl.Vertex3f(Me.Size.x / 2, - Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, - Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, - Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, - Me.Size.y / 2, Me.Size.z / 2)
+
+  'Front
+  gl.Color3f(1.0, 0.0, 0.0) 'Red
+  gl.Vertex3f(Me.Size.x / 2, - Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, - Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, Me.Size.y / 2, Me.Size.z / 2)
+
+  'Back
+  gl.Color3f(1.0, 1.0, 0.0)        ' / / Set The Color TO Yellow
+  gl.Vertex3f(Me.Size.x / 2, - Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, - Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, Me.Size.y / 2, - Me.Size.z / 2)
+
+  'Left
+  gl.Color3f(0.0, 0.0, 1.0) 'Blue
+  gl.Vertex3f(- Me.Size.x / 2, Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, - Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(- Me.Size.x / 2, - Me.Size.y / 2, Me.Size.z / 2)
+
+  'Right
+  gl.Color3f(0.0, 0.0, 1.0) 'Blue
+  gl.Vertex3f(Me.Size.x / 2, Me.Size.y / 2, Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, - Me.Size.y / 2, - Me.Size.z / 2)
+  gl.Vertex3f(Me.Size.x / 2, - Me.Size.y / 2, Me.Size.z / 2)
+
+  gl.End()                                               'Done Drawing The Quad
+
+End
