@@ -1,0 +1,13 @@
+' Gambas class file
+
+Inherits Box
+
+Public Sub _new()
+
+  Me.Size.x = 0.1
+  Me.Size.y = 0.1
+  Me.Size.z = 0.2
+
+  Me.Velocity.z = -0.1
+
+End

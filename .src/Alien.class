@@ -14,4 +14,27 @@ Public Sub MoveForward()
 
   Me.z += 0.2
 
+  If Me.z > 10 Then
+    Me.z -= 100
+  Endif
+
+End
+
+Public Sub CheckForHit(Screen As Screen)
+
+  Dim Bullet As Bullet
+
+  For Each Bullet In Screen.Bullets
+    If Bullet.IntersectsXZ(Me) Then
+
+      Screen.Aliens.Remove(Screen.Aliens.Find(Me, 0))
+      Screen.Bullets.Remove(Screen.Bullets.Find(Bullet, 0))
+
+    Endif
+  Next
+
+  If Me.IntersectsXZ(Screen.Ship) Then
+    Screen.Ship.Destroyed = True
+  Endif
+
 End

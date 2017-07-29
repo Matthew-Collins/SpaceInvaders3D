@@ -4,13 +4,15 @@ Public Window As New Window(True) As "Window"
 Public Camera As New Camera
 
 Public Ship As New Ship
-Public Aliens[100] As Alien
+Public Aliens As New Alien[]
+Public Bullets As New Bullet[]
 
 Public Draws As Integer
 
 Public Sub _new()
 
   Dim x As Integer
+  Dim Alien As Alien
 
   With Window
     .Resize(1600, 1080)
@@ -19,12 +21,13 @@ Public Sub _new()
   End With
 
   For x = 0 To 99
-    Aliens[x] = New Alien
-    With Aliens[x]
+    Alien = New Alien
+    With Alien
       .x = (x Mod 10) - 4.5
       .z = -100
       .z += x \ 10
     End With
+    Aliens.Add(Alien)
   Next
 
 End
@@ -43,15 +46,21 @@ End
 
 Public Sub Window_Draw()
 
+  Dim Bullet As Bullet
   Dim Alien As Alien
-
-  'Me.Camera.x = Me.Ship.x
 
   Me.Camera.Update(Me.Window)
 
-  Me.Ship.Draw()
+  If Not Ship.Destroyed Then
+    Me.Ship.Draw()
+  Endif
+
+  For Each Bullet In Me.Bullets
+    Bullet.Draw()
+  Next
 
   For Each Alien In Me.Aliens
+    Alien.CheckForHit(Me)
     Alien.MoveForward()
     Alien.Draw()
   Next
@@ -69,7 +78,7 @@ Public Sub Window_KeyPress()
   If Key.Code = Key.PageUp Then Camera.z -= 1
   If Key.Code = Key.PageDown Then Camera.z += 1
 
-  If Key.Code = Key.Space Then Camera.Zoom += 1
+  If Key.Code = Key.Space Then Ship.Fire(Me)
 
   If Key.Code = Key.F5 Then Camera.Rotate.x += 1
   If Key.Code = Key.F6 Then Camera.Rotate.x -= 1
