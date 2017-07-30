@@ -18,6 +18,8 @@ Public Sub _new()
   Dim x As Integer
   Dim Alien As Alien
 
+  Mouse.Hide
+
   With Window
     .Resize(1600, 1080)
     .Resizable = True
