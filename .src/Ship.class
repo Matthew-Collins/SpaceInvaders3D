@@ -3,6 +3,9 @@
 Inherits Box
 
 Public Destroyed As Boolean
+Public MaxCycle As Integer = 25
+Public Cycle As Integer = MaxCycle + 1
+Public CanFire As Boolean = True
 
 Public Sub _new()
 
@@ -12,12 +15,27 @@ Public Sub _new()
 
 End
 
+Public Sub Update()
+
+  If Me.Cycle < MaxCycle
+    Me.Cycle += 1
+    Me.CanFire = False
+  Else If Me.cycle = MaxCycle
+    Me.Cycle += 1
+    Me.CanFire = True
+  Endif
+
+End
+
 Public Sub Fire(Screen As Screen)
 
   Dim Bullet As New Bullet
 
-  Bullet.x = Screen.Ship.x
-
-  Screen.Bullets.Add(Bullet)
+  If Not Me.Destroyed And Me.CanFire Then
+    Me.Cycle = 0
+    Bullet.x = Screen.Ship.x
+    Screen.Bullets.Add(Bullet)
+    Screen.ShipFire.Play()
+  Endif
 
 End

@@ -7,6 +7,10 @@ Public Ship As New Ship
 Public Aliens As New Alien[]
 Public Bullets As New Bullet[]
 
+Public AlienDestroyed As Sound
+Public ShipDestroyed As Sound
+Public ShipFire As Sound
+
 Public Draws As Integer
 
 Public Sub _new()
@@ -30,6 +34,10 @@ Public Sub _new()
     Aliens.Add(Alien)
   Next
 
+  AlienDestroyed = Sound.Load("Alien.wav")
+  ShipDestroyed = Sound.Load("Ship.wav")
+  ShipFire = Sound.Load("Fire.wav")
+
 End
 
 Public Sub Window_Open()
@@ -48,21 +56,28 @@ Public Sub Window_Draw()
 
   Dim Bullet As Bullet
   Dim Alien As Alien
+  Dim MinZ As Float
 
   Me.Camera.Update(Me.Window)
 
+  Me.Ship.Update()
   If Not Ship.Destroyed Then
     Me.Ship.Draw()
   Endif
-
-  For Each Bullet In Me.Bullets
-    Bullet.Draw()
-  Next
 
   For Each Alien In Me.Aliens
     Alien.CheckForHit(Me)
     Alien.MoveForward()
     Alien.Draw()
+    MinZ = Alien.MinZ(MinZ)
+  Next
+
+  For Each Bullet In Me.Bullets
+    Bullet.Update(Ship)
+    Bullet.CheckForPassed(Me, MinZ)
+    If Bullet.Velocity.z <> 0.0 Then
+      Bullet.Draw()
+    Endif
   Next
 
 End
@@ -79,6 +94,8 @@ Public Sub Window_KeyPress()
   If Key.Code = Key.PageDown Then Camera.z += 1
 
   If Key.Code = Key.Space Then Ship.Fire(Me)
+
+  If Key.Code = Key.F4 Then Ship.Destroyed = False
 
   If Key.Code = Key.F5 Then Camera.Rotate.x += 1
   If Key.Code = Key.F6 Then Camera.Rotate.x -= 1

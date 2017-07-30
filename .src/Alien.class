@@ -29,12 +29,24 @@ Public Sub CheckForHit(Screen As Screen)
 
       Screen.Aliens.Remove(Screen.Aliens.Find(Me, 0))
       Screen.Bullets.Remove(Screen.Bullets.Find(Bullet, 0))
+      Screen.AlienDestroyed.Play()
 
     Endif
   Next
 
-  If Me.IntersectsXZ(Screen.Ship) Then
+  If Me.IntersectsXZ(Screen.Ship) And Not Screen.Ship.Destroyed Then
     Screen.Ship.Destroyed = True
+    Screen.ShipDestroyed.Play()
+  Endif
+
+End
+
+Public Function MinZ(Existing As Float) As Float
+
+  If Me.z < Existing Then
+    Return Me.z
+  Else
+    Return Existing
   Endif
 
 End

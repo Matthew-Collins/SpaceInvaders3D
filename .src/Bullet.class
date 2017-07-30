@@ -2,12 +2,35 @@
 
 Inherits Box
 
+Public Cycle As Integer
+Public MaxCycle As Integer = 50
+
 Public Sub _new()
 
   Me.Size.x = 0.1
   Me.Size.y = 0.1
   Me.Size.z = 0.2
 
-  Me.Velocity.z = -0.1
+  Me.Velocity.z = -0.0
+
+End
+
+Public Sub Update(Ship As Ship)
+
+  If Me.Cycle < MaxCycle
+    Me.Cycle += 1
+  Else If Me.cycle = MaxCycle
+    Me.Cycle += 1
+    Me.Velocity.z = -0.1
+    Me.x = Ship.x
+  Endif
+
+End
+
+Public Sub CheckForPassed(Screen As Screen, MinZ As Float)
+
+  If Me.z < minz Then
+    Screen.Bullets.Remove(Screen.Bullets.Find(Me, 0))
+  Endif
 
 End

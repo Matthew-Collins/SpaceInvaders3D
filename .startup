@@ -8,4 +8,5 @@ gb.image
 gb.sdl2
 gb.opengl
 gb.opengl.glu
+gb.sdl2.audio
 
