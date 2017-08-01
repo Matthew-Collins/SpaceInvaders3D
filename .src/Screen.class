@@ -3,7 +3,7 @@
 Public Window As New Window(True) As "Window"
 Public Camera As New Camera
 
-Public Ship As New Ship
+Public Ship As New Ship(Me)
 Public Aliens As New Alien[]
 Public Bullets As New Bullet[]
 
@@ -15,9 +15,6 @@ Public Draws As Integer
 
 Public Sub _new()
 
-  Dim x As Integer
-  Dim Alien As Alien
-
   Mouse.Hide
 
   With Window
@@ -25,6 +22,19 @@ Public Sub _new()
     .Resizable = True
     .Text = "Space Invaders 3D"
   End With
+
+  Me.NewInvaders()
+
+  AlienDestroyed = Sound.Load("Alien.wav")
+  ShipDestroyed = Sound.Load("Ship.wav")
+  ShipFire = Sound.Load("Fire.wav")
+
+End
+
+Public Sub NewInvaders()
+
+  Dim x As Integer
+  Dim Alien As Alien
 
   For x = 0 To 99
     Alien = New Alien
@@ -35,10 +45,6 @@ Public Sub _new()
     End With
     Aliens.Add(Alien)
   Next
-
-  AlienDestroyed = Sound.Load("Alien.wav")
-  ShipDestroyed = Sound.Load("Ship.wav")
-  ShipFire = Sound.Load("Fire.wav")
 
 End
 
@@ -82,6 +88,10 @@ Public Sub Window_Draw()
     Endif
   Next
 
+  If Me.Aliens.Count = 0 Then
+    Me.NewInvaders()
+  Endif
+
 End
 
 Public Sub Window_KeyPress()
@@ -95,7 +105,7 @@ Public Sub Window_KeyPress()
   If Key.Code = Key.PageUp Then Camera.z -= 1
   If Key.Code = Key.PageDown Then Camera.z += 1
 
-  If Key.Code = Key.Space Then Ship.Fire(Me)
+  If Key.Code = Key.Space Then Ship.Firing = True
 
   If Key.Code = Key.F4 Then Ship.Destroyed = False
 
@@ -114,5 +124,6 @@ Public Sub Window_KeyRelease()
 
   If Key.Code = Key.Left Then Ship.Velocity.x = 0
   If Key.Code = Key.Right Then Ship.Velocity.x = 0
+  If Key.Code = Key.Space Then Ship.Firing = False
 
 End

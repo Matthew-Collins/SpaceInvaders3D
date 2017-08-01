@@ -2,12 +2,17 @@
 
 Inherits Box
 
+Public Screen As Screen
+
 Public Destroyed As Boolean
 Public MaxCycle As Integer = 25
 Public Cycle As Integer = MaxCycle + 1
 Public CanFire As Boolean = True
+Public Firing As Boolean
 
-Public Sub _new()
+Public Sub _new(Screen As Screen)
+
+  Me.Screen = Screen
 
   Me.Size.x = 0.5
   Me.Size.y = 0.5
@@ -25,9 +30,13 @@ Public Sub Update()
     Me.CanFire = True
   Endif
 
+  If Me.Firing Then
+    Me.Fire
+  Endif
+
 End
 
-Public Sub Fire(Screen As Screen)
+Public Sub Fire()
 
   Dim Bullet As New Bullet
 
