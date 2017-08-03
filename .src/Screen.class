@@ -8,8 +8,11 @@ Public Aliens As New Alien[]
 Public Bullets As New Bullet[]
 
 Public AlienDestroyed As Sound
+Public AlienFire As Sound
 Public ShipDestroyed As Sound
 Public ShipFire As Sound
+
+Public AliensCanFire As Integer = 0
 
 Public Draws As Integer
 
@@ -26,6 +29,7 @@ Public Sub _new()
   Me.NewInvaders()
 
   AlienDestroyed = Sound.Load("Alien.wav")
+  AlienFire = Sound.Load("AlienFire.wav")
   ShipDestroyed = Sound.Load("Ship.wav")
   ShipFire = Sound.Load("Fire.wav")
 
@@ -65,10 +69,12 @@ Public Sub Window_Draw()
   Dim Bullet As Bullet
   Dim Alien As Alien
   Dim MinZ As Float
+  Dim MaxZ As Float = -100
 
   Me.Camera.Update(Me.Window)
 
   Me.Ship.Update()
+  Me.Ship.CheckForHit(Me)
   If Not Ship.Destroyed Then
     Me.Ship.Draw()
   Endif
@@ -78,7 +84,15 @@ Public Sub Window_Draw()
     Alien.MoveForward()
     Alien.Draw()
     MinZ = Alien.MinZ(MinZ)
+    MaxZ = Alien.MaxZ(MaxZ)
   Next
+
+  AliensCanFire += 1
+  If Me.Aliens.Count > 0 And If AliensCanFire >= 50 Then
+    Alien = Me.Aliens[Rand(0, Me.Aliens.Count - 1)]
+    Alien.Fire(Me, MaxZ)
+    AliensCanFire = 0
+  End If
 
   For Each Bullet In Me.Bullets
     Bullet.Update(Ship)

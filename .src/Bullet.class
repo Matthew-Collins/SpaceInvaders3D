@@ -29,7 +29,7 @@ End
 
 Public Sub CheckForPassed(Screen As Screen, MinZ As Float)
 
-  If Me.z < minz Then
+  If Me.z < minz Or If Me.z > 10 Then
     Screen.Bullets.Remove(Screen.Bullets.Find(Me, 0))
   Endif
 

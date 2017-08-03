@@ -12,7 +12,7 @@ End
 
 Public Sub MoveForward()
 
-  Me.z += 0.2
+  Me.z += 0.1
 
   If Me.z > 10 Then
     Me.z -= 100
@@ -27,7 +27,7 @@ Public Sub CheckForHit(Screen As Screen)
   For Each Bullet In Screen.Bullets
     If Bullet.IntersectsXZ(Me) Then
 
-      Screen.Aliens.Remove(Screen.Aliens.Find(Me, 0))
+      Try Screen.Aliens.Remove(Screen.Aliens.Find(Me, 0))
       Screen.Bullets.Remove(Screen.Bullets.Find(Bullet, 0))
       Screen.AlienDestroyed.Play()
 
@@ -41,9 +41,32 @@ Public Sub CheckForHit(Screen As Screen)
 
 End
 
+Public Function Fire(Screen As Screen, MaxZ As Float)
+
+  Dim Bullet As New Bullet
+
+  Bullet.x = Me.x
+  Bullet.z = MaxZ + 2
+  Bullet.Velocity.z = 0.3
+  Bullet.Cycle = Bullet.MaxCycle + 1
+  Screen.AlienFire.Play()
+  Screen.Bullets.Add(Bullet)
+
+End
+
 Public Function MinZ(Existing As Float) As Float
 
   If Me.z < Existing Then
+    Return Me.z
+  Else
+    Return Existing
+  Endif
+
+End
+
+Public Function MaxZ(Existing As Float) As Float
+
+  If Me.z > Existing Then
     Return Me.z
   Else
     Return Existing

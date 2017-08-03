@@ -36,6 +36,22 @@ Public Sub Update()
 
 End
 
+Public Sub CheckForHit(Screen As Screen)
+
+  Dim Bullet As Bullet
+
+  For Each Bullet In Screen.Bullets
+    If Bullet.IntersectsXZ(Me) Then
+
+      Screen.Ship.Destroyed = True
+      Screen.Bullets.Remove(Screen.Bullets.Find(Bullet, 0))
+      Screen.ShipDestroyed.Play()
+
+    Endif
+  Next
+
+End
+
 Public Sub Fire()
 
   Dim Bullet As New Bullet
@@ -43,6 +59,7 @@ Public Sub Fire()
   If Not Me.Destroyed And Me.CanFire Then
     Me.Cycle = 0
     Bullet.x = Screen.Ship.x
+    Bullet.z = -0.5
     Screen.Bullets.Add(Bullet)
     Screen.ShipFire.Play()
   Endif
